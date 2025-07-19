@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
 import './App.css'
 
 function App() {
@@ -24,7 +25,34 @@ function App() {
 
   useEffect(()=>{
     fetchRegistros();
-  },[])
+  },[]);
+
+  //Calculando Resumo Geral
+
+  const debitos = registros.filter(r=>r.tipo === 'debito')
+  const totalDebitoEssencial = debitos
+    .filter(r => r.gasto === 'essencial')
+    .reduce((acc, cur) => acc + cur.valor, 0);
+  const totalDebitoNaoEssencial = debitos
+    .filter(r => r.gasto === 'nao-essencial')
+    .reduce((acc, cur) => acc + cur.valor, 0);
+
+  const creditos = registros.filter(r=>r.tipo === 'credito')
+  const totalCreditoEssencial = creditos
+    .filter(r => r.gasto === 'essencial')
+    .reduce((acc, cur) => acc + cur.valor, 0);
+    const totalCreditoNaoEssencial = creditos
+    .filter(r => r.gasto === 'nao-essencial')
+    .reduce((acc, cur) => acc + cur.valor, 0);
+
+    // Dias entre o primeiro registro e hoje
+  const datas = registros.map(r => new Date(r.data));
+  const dataMaisAntiga = datas.length > 0 ? new Date(Math.min(...datas)) : new Date();
+  const hoje = new Date();
+  const diffMs = hoje - dataMaisAntiga;
+  const diasRegistrados = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+
+
 
   const handleSubmit = async(e)=>{
     e.preventDefault();
@@ -78,6 +106,36 @@ function App() {
       alert('Erro ao deletar registro')
     }
   }
+
+  const calcularTotaisGastosDebito = ()=>{
+    const totais = {essencial:0, 'nao-essencial':0}
+    registros.forEach((reg)=>{
+      if(reg.tipo === 'debito'){
+        if(reg.gasto === 'essencial') totais.essencial +=reg.valor;
+        if(reg.gasto === 'nao-essencial') totais['nao-essencial'] +=reg.valor;
+      }
+    });    
+
+    return[
+      {name: 'Essencial', value: totais.essencial},
+      {name:'Nao Essencial', value:totais['nao-essencial']}
+    ]
+  }
+
+  const calcularTotaisGastosCredito = ()=>{
+    const totais = {essencial:0, 'nao-essencial':0}
+    registros.forEach((reg)=>{
+      if(reg.tipo === 'credito'){
+        if(reg.gasto === 'essencial') totais.essencial +=reg.valor;
+        if(reg.gasto === 'nao-essencial') totais['nao-essencial'] +=reg.valor;
+      }
+    });    
+
+    return[
+      {name: 'Essencial', value: totais.essencial},
+      {name:'Nao Essencial', value:totais['nao-essencial']}
+    ]
+  }
   return (
     <>
       <header className="app-header">
@@ -115,8 +173,91 @@ function App() {
 
         <button type='submit'>Salvar</button>
       </form>      
+
+      {/*Resumo Geral */}
+      <div className='resumo-card'>
+        <h2>📊 Resumo</h2>
+        <p><strong>Dias registrados:</strong> {diasRegistrados} dias</p>
+
+        <h3>Débitos</h3>
+        <p><strong>Registros:</strong> {debitos.length}</p>
+        <p><strong>Essencial:</strong> R$ {totalDebitoEssencial.toFixed(2)}</p>
+        <p><strong>Não-Essencial:</strong> R$ {totalDebitoNaoEssencial.toFixed(2)}</p>
+        <p><strong>Total:</strong> R$ {(totalDebitoEssencial + totalDebitoNaoEssencial).toFixed(2)}</p>
+
+        <h3>Créditos</h3>
+        <p><strong>Registros:</strong> {creditos.length}</p>
+        <p><strong>Essencial:</strong> R$ {totalCreditoEssencial.toFixed(2)}</p>
+        <p><strong>Não-Essencial:</strong> R$ {totalCreditoNaoEssencial.toFixed(2)}</p>
+        <p><strong>Total:</strong> R$ {(totalCreditoEssencial + totalCreditoNaoEssencial).toFixed(2)}</p>
+      </div>
       
-      {/*Grafico */}
+      {/*Graficos */}
+      {registros.length > 0 && (
+  <div className="grafico-container">
+    <h3>Distribuição de Gastos no Débito</h3>
+    <PieChart width={300} height={300}>
+      <Pie
+        data={calcularTotaisGastosDebito()}
+        cx="50%"
+        cy="50%"
+        outerRadius={100}
+        dataKey="value"
+        label={({ value }) =>
+         `Valor: ${new Intl.NumberFormat('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+          }).format(value)}`
+          }        
+      >
+        <Cell fill="#2d455eff" />
+        <Cell fill="#9af087ff" />
+      </Pie>
+      <Tooltip
+        formatter={(value) =>
+        new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+        }).format(value)
+        }
+      />
+      <Legend />
+    </PieChart>
+  </div>
+)}
+
+{registros.length > 0 && (
+  <div className="grafico-container">
+    <h3>Distribuição de Gastos no Crédito</h3>
+    <PieChart width={300} height={300}>
+      <Pie
+        data={calcularTotaisGastosCredito()}
+        cx="50%"
+        cy="50%"
+        outerRadius={100}
+        dataKey="value"
+        label={({ value }) =>
+         `Valor: ${new Intl.NumberFormat('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+          }).format(value)}`
+          }        
+      >
+        <Cell fill="#2d455eff" />
+        <Cell fill="#9af087ff" />
+      </Pie>
+      <Tooltip
+        formatter={(value) =>
+        new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+        }).format(value)
+        }
+      />
+      <Legend />
+    </PieChart>
+  </div>
+)}
 
       
       <div className='registros-container'>
