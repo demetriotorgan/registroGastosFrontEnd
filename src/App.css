@@ -67,7 +67,8 @@
 }
 
 @media (min-width: 600px) {
-  .formulario {
+  .formulario,
+  .registros-container {
     max-width: 500px;
     margin: 40px auto;
   }
@@ -109,6 +110,8 @@
   flex-direction: column;
   gap: 16px;
   padding: 1rem;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 .registro-card {
