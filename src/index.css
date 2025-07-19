@@ -1,0 +1,10 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+:root {
+  --cor-primaria: #1e1e2f;    
+  --cor-texto:#bbbbbb;
+}
+

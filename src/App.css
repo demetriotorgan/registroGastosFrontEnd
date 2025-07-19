@@ -1,0 +1,74 @@
+.app-header {
+  background-color:var(--cor-primaria);
+  color: #ffffff;
+  padding: 20px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.logo h1 {
+  font-size: 1.8rem;
+  margin: 0;
+  font-weight: 600;
+}
+
+.logo small {
+  font-size: 0.9rem;
+  color:var(--cor-texto);
+}
+
+.formulario {
+  background-color: #2a2a3d;
+  color: #ffffff;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.formulario label {
+  font-size: 0.9rem;
+  color: #bbbbbb;
+}
+
+.formulario input,
+.formulario select {
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #1e1e2f;
+  color: #ffffff;
+}
+
+.formulario input::placeholder {
+  color: #888888;
+}
+
+.formulario button {
+  padding: 12px;
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.formulario button:hover {
+  background-color: #45a049;
+}
+
+@media (min-width: 600px) {
+  .formulario {
+    max-width: 500px;
+    margin: 40px auto;
+  }
+}
