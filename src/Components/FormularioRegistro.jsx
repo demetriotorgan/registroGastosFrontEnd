@@ -46,6 +46,9 @@ setCategoria
           <option value="bebidas">Bebidas</option>
           <option value="lanche">Lanche</option>
           <option value="abastecimento">Abastecimento</option>
+          <option value="agua">Água</option>
+          <option value="luz">Luz</option>
+          <option value="internet">Internet</option>
           <option value="outro">Outros</option>
         </select>
 
