@@ -1,0 +1,20 @@
+.app-header {
+  background-color:var(--cor-primaria);
+  color: #ffffff;
+  padding: 20px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.logo h1 {
+  font-size: 1.8rem;
+  margin: 0;
+  font-weight: 600;
+}
+
+.logo small {
+  font-size: 0.9rem;
+  color:var(--cor-texto);
+}
