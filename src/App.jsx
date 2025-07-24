@@ -13,12 +13,19 @@ import RegistroContainer from './Components/RegistroContainer';
 import { exportarParaCSV } from './utils/ExportarCSV';
 import { GraficoCategoriasAgrupado } from './Components/GraficoCategoriasAgrupadas';
 import { TotaisPorCategoria } from './Components/TotaisPorCategoria';
+import {SucessoAnimado} from './Components/SucessoAnimado'
 
 function App() {
   const [valor, setValor] = useState('');
   const [tipo, setTipo] = useState('credito');
   const [gasto, setGasto] = useState('nao-essencial');
   const [categoria, setCategoria] = useState("supermercado")
+  const [mostrarSucesso, setMostrarSucesso] = useState(false);
+
+  const handleSucesso =()=>{
+    setMostrarSucesso(true);
+    setTimeout(()=>setMostrarSucesso(false),1000);
+  }
   
   //Hooks
   const {registros, loadingList, fetchRegistros} = useRegistros();
@@ -45,14 +52,18 @@ function App() {
       categoria,
       onSuccess: ()=>{
         setValor('');
-        setCategoria('supermercado')
-      }
+        setCategoria('supermercado')        
+      },
+      onSuccessExtra:handleSucesso
     });
   };
     
   return (
     <>
       <Header/>          
+      <div>
+      <SucessoAnimado mostrar={mostrarSucesso} />      
+      </div>
       <FormularioRegistro        
         valor={valor}
         setValor={setValor}

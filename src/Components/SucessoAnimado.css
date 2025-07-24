@@ -1,0 +1,9 @@
+.check-animado {
+  font-size: 3rem;
+  color: #2ecc71; /* Verde sucesso */
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+}
