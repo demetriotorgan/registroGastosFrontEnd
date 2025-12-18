@@ -84,7 +84,8 @@ function App() {
         totalDebitoNaoEssencial={totalDebitoNaoEssencial}
         creditos={creditos}
         totalCreditoEssencial={totalCreditoEssencial}
-        totalCreditoNaoEssencial={totalCreditoNaoEssencial}/>             
+        totalCreditoNaoEssencial={totalCreditoNaoEssencial}
+        registros={registros}/>             
 
       <GraficoCategoriasAgrupado
       registros={registros}/>

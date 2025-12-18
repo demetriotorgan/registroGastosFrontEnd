@@ -1,3 +1,4 @@
+import { exportarParaCSV } from '../utils/ExportarCSV';
 import './ResumoGeral.css'
 
 const ResumoGeral = ({
@@ -7,7 +8,8 @@ const ResumoGeral = ({
   totalDebitoNaoEssencial,
   creditos,
   totalCreditoEssencial,
-  totalCreditoNaoEssencial
+  totalCreditoNaoEssencial,
+  registros
 }) => {
   return (
     <div className='resumo-card'>
